@@ -15,12 +15,16 @@ variable "zone" {
 }
 
 variable "services" {
-  type    = list(string)
+  type = list(string)
   default = [
     "sqladmin.googleapis.com"
-    ]
+  ]
 }
 
 variable "db_version" {
   default = "13"
+}
+
+variable "gsa_name" {
+  default = "gitea-ksa-gsa"
 }

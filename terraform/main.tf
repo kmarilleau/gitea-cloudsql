@@ -49,3 +49,17 @@ resource "google_sql_database_instance" "master" {
     tier = "db-f1-micro"
   }
 }
+
+resource "google_service_account" "gsa" {
+  account_id   = var.gsa_name
+  display_name = "GSA Service Account"
+}
+
+resource "google_service_account_iam_binding" "admin-account-iam" {
+  service_account_id = google_service_account.gsa.name
+  role               = "roles/iam.workloadIdentityUser"
+
+  members = [
+    "serviceAccount:${var.gcp_project}.svc.id.goog[default/${var.gsa_name}]",
+  ]
+}
