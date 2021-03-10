@@ -9,10 +9,6 @@ jobs:
     name: "Terraform"
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        dir: ["dev"]
-
     defaults:
       run:
         shell: bash
@@ -33,27 +29,28 @@ jobs:
         id: filter
         with:
           filters: |
-            ${{ matrix.dir }}:
-              - 'terraform/${{ matrix.dir }}/**'
+            terraform:
+              - 'terraform/**'
+
       - name: Setup Terraform
-        if: steps.changes.outputs.${{ matrix.dir }} == 'true'
+        if: steps.changes.outputs.terraform == 'true'
         uses: hashicorp/setup-terraform@v1
 
       - name: Terraform Init
-        if: steps.changes.outputs.${{ matrix.dir }} == 'true'
+        if: steps.changes.outputs.terraform == 'true'
         run: |
           terraform init \
             -backend-config bucket=${{ secrets.TF_BACKEND_BUCKET }}
-        working-directory: terraform/${{ matrix.dir }}
+        working-directory: terraform
 
       - name: Terraform Plan
-        if: steps.changes.outputs.${{ matrix.dir }} == 'true'
+        if: steps.changes.outputs.terraform == 'true'
         run: terraform plan
-        working-directory: terraform/${{ matrix.dir }}
+        working-directory: terraform
 
       - name: Terraform Apply
         if: |
-          steps.changes.outputs.${{ matrix.dir }} == 'true' &&
+          steps.changes.outputs.terraform == 'true' &&
           BRANCH_NAME == "main" && github.event_name == 'push'
         run: terraform apply -auto-approve
-        working-directory: terraform/${{ matrix.dir }}
+        working-directory: terraform
