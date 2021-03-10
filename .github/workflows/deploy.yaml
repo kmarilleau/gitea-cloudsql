@@ -1,4 +1,4 @@
-name: "Terraform"
+name: "Deploy"
 
 on:
   push:
@@ -22,11 +22,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Get Branch Name
-        uses: nelonoel/branch-name@v1.0.1
-
       - uses: dorny/paths-filter@v2
-        id: filter
+        id: changes
         with:
           filters: |
             terraform:
@@ -49,8 +46,49 @@ jobs:
         working-directory: terraform
 
       - name: Terraform Apply
-        if: |
-          steps.changes.outputs.terraform == 'true' &&
-          BRANCH_NAME == "main" && github.event_name == 'push'
+        if: steps.changes.outputs.terraform == 'true'
         run: terraform apply -auto-approve
         working-directory: terraform
+
+  kubernetes:
+    name: "Kubernetes"
+    runs-on: ubuntu-latest
+    needs: terraform
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            k8s:
+              - 'k8s/**'
+
+      - name: Get GKE Credentials
+        if: steps.changes.outputs.k8s == 'true'
+        id: get-credentials
+        uses: google-github-actions/get-gke-credentials@main
+        with:
+          cluster_name: gitea-cloudsql
+          location: us-central1-c
+          credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+
+      - name: Setup Kubectl
+        if: steps.changes.outputs.k8s == 'true'
+        uses: azure/setup-kubectl@v1
+
+      - name: Validate
+        if: steps.changes.outputs.k8s == 'true'
+        run: kubectl apply --validate=true --dry-run=true -f .
+        working-directory: k8s
+
+      - name: Apply
+        if: steps.changes.outputs.k8s == 'true'
+        run: kubectl apply -f .
+        working-directory: k8s
