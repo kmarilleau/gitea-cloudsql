@@ -76,7 +76,7 @@ jobs:
         uses: google-github-actions/get-gke-credentials@main
         with:
           cluster_name: gitea-cloudsql
-          location: us-central1-c
+          location: us-central1
           credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
 
       - name: Setup Kubectl
