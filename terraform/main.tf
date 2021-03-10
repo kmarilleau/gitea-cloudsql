@@ -63,3 +63,12 @@ resource "google_service_account_iam_binding" "admin-account-iam" {
     "serviceAccount:${var.gcp_project}.svc.id.goog[default/${var.gsa_name}]",
   ]
 }
+
+resource "kubernetes_service_account" "gsa" {
+  metadata {
+    name = var.gsa_name
+    annotations = {
+      "iam.gke.io/gcp-service-account" = "${var.gsa_name}@${var.gcp_project}.iam.gserviceaccount.com"
+    }
+  }
+}
