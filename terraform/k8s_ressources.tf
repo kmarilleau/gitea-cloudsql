@@ -1,4 +1,8 @@
 resource "kubernetes_service_account" "gsa" {
+  depends_on = [
+    google_container_cluster.primary
+  ]
+
   metadata {
     name = var.gsa_name
     annotations = {
@@ -8,6 +12,10 @@ resource "kubernetes_service_account" "gsa" {
 }
 
 resource "kubernetes_deployment" "gitea" {
+  depends_on = [
+    google_container_cluster.primary
+  ]
+
   metadata {
     name = "gitea"
   }
@@ -57,6 +65,10 @@ resource "kubernetes_deployment" "gitea" {
 }
 
 resource "kubernetes_service" "gitea_service" {
+  depends_on = [
+    kubernetes_deployment.gitea
+  ]
+
   metadata {
     name = "gitea-service"
   }
