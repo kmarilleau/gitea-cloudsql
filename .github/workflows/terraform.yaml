@@ -20,7 +20,7 @@ jobs:
     env:
       GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       GOOGLE_BACKEND_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-      TF_VAR_project: ${{ secrets.GCP_PROJECT }}
+      TF_VAR_gcp_project: ${{ secrets.GCP_PROJECT }}
 
     steps:
       - name: Checkout
