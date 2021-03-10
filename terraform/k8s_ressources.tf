@@ -42,6 +42,31 @@ resource "kubernetes_deployment" "gitea" {
           port {
             container_port = 3000
           }
+
+          env {
+            name  = "INSTALL_LOCK"
+            value = "true"
+          }
+          env {
+            name  = "DB_TYPE"
+            value = "postgres"
+          }
+          env {
+            name  = "DB_HOST"
+            value = "localhost:5432"
+          }
+          env {
+            name  = "DB_NAME"
+            value = "gitea"
+          }
+          env {
+            name  = "DB_USER"
+            value = var.cloudsql_user
+          }
+          env {
+            name  = "DB_PASSWD"
+            value = var.cloudsql_password
+          }
         }
 
         container {
