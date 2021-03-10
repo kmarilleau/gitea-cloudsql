@@ -16,6 +16,6 @@ resource "google_service_account_iam_binding" "admin-account-iam" {
   role               = "roles/iam.workloadIdentityUser"
 
   members = [
-    "serviceAccount:${var.gcp_project}.svc.id.goog[default/${var.gsa_name}]",
+    "serviceAccount:${var.gcp_project}.svc.id.goog[default/${var.ksa_name}]",
   ]
 }

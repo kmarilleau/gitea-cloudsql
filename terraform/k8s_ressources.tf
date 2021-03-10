@@ -1,10 +1,10 @@
-resource "kubernetes_service_account" "gsa" {
+resource "kubernetes_service_account" "ksa" {
   depends_on = [
     google_container_cluster.primary
   ]
 
   metadata {
-    name = var.gsa_name
+    name = var.ksa_name
     annotations = {
       "iam.gke.io/gcp-service-account" = "${var.gsa_name}@${var.gcp_project}.iam.gserviceaccount.com"
     }
@@ -58,7 +58,7 @@ resource "kubernetes_deployment" "gitea" {
         }
 
         restart_policy       = "Always"
-        service_account_name = var.gsa_name
+        service_account_name = var.ksa_name
       }
     }
   }

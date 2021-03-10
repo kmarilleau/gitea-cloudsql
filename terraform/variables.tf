@@ -26,7 +26,11 @@ variable "db_version" {
 }
 
 variable "gsa_name" {
-  default = "gitea-ksa-gsa"
+  default = "gitea-gsa"
+}
+
+variable "ksa_name" {
+  default = "gitea-ksa"
 }
 
 variable "cloudsql_user" {
