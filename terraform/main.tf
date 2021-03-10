@@ -6,16 +6,6 @@ resource "google_project_service" "services" {
   disable_dependent_services = false
 }
 
-resource "google_sql_database_instance" "master" {
-  name             = "${var.app}-db"
-  database_version = "POSTGRES_${var.db_version}"
-  region           = var.region
-
-  settings {
-    tier = "db-f1-micro"
-  }
-}
-
 resource "google_service_account" "gsa" {
   account_id   = var.gsa_name
   display_name = "GSA Service Account"
@@ -29,3 +19,4 @@ resource "google_service_account_iam_binding" "admin-account-iam" {
     "serviceAccount:${var.gcp_project}.svc.id.goog[default/${var.gsa_name}]",
   ]
 }
+
