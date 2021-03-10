@@ -56,3 +56,21 @@ resource "kubernetes_deployment" "gitea" {
   }
 }
 
+resource "kubernetes_service" "gitea_service" {
+  metadata {
+    name = "gitea-service"
+  }
+
+  spec {
+    port {
+      port        = 80
+      target_port = 3000
+    }
+
+    selector = {
+      app = "gitea"
+    }
+
+    type = "LoadBalancer"
+  }
+}
