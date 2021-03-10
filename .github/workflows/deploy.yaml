@@ -17,6 +17,8 @@ jobs:
       GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       GOOGLE_BACKEND_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       TF_VAR_gcp_project: ${{ secrets.GCP_PROJECT }}
+      TF_VAR_cloudsql_user: ${{ secrets.GCP_CLOUD_SQL_USER }}
+      TF_VAR_cloudsql_password: ${{ secrets.GCP_CLOUD_SQL_PASSWORD }}
 
     steps:
       - name: Checkout
