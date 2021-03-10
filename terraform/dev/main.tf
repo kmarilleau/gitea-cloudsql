@@ -1,3 +1,11 @@
+resource "google_project_service" "services" {
+  for_each = toset(var.services)
+  project  = var.gcp_project
+  service  = each.value
+
+  disable_dependent_services = false
+}
+
 resource "google_service_account" "gke" {
   account_id   = "${var.app}-gke-sa"
   display_name = "${var.app} Service Account"

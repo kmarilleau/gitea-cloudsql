@@ -13,3 +13,12 @@ variable "region" {
 variable "zone" {
   default = "us-central1-c"
 }
+
+variable "services" {
+  type    = list(string)
+  default = [
+    "sqladmin.googleapis.com"
+    ]
+}
+
+
