@@ -6,8 +6,6 @@ resource "google_project_service" "services" {
   disable_dependent_services = false
 }
 
-
-
 resource "google_sql_database_instance" "master" {
   name             = "${var.app}-db"
   database_version = "POSTGRES_${var.db_version}"
@@ -32,11 +30,11 @@ resource "google_service_account_iam_binding" "admin-account-iam" {
   ]
 }
 
-resource "kubernetes_service_account" "gsa" {
-  metadata {
-    name = var.gsa_name
-    annotations = {
-      "iam.gke.io/gcp-service-account" = "${var.gsa_name}@${var.gcp_project}.iam.gserviceaccount.com"
-    }
-  }
-}
+# resource "kubernetes_service_account" "gsa" {
+#   metadata {
+#     name = var.gsa_name
+#     annotations = {
+#       "iam.gke.io/gcp-service-account" = "${var.gsa_name}@${var.gcp_project}.iam.gserviceaccount.com"
+#     }
+#   }
+# }
