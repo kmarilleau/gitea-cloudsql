@@ -19,4 +19,3 @@ resource "google_service_account_iam_binding" "admin-account-iam" {
     "serviceAccount:${var.gcp_project}.svc.id.goog[default/${var.gsa_name}]",
   ]
 }
-
