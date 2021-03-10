@@ -11,11 +11,16 @@ resource "google_service_account" "gsa" {
   display_name = "GSA Service Account"
 }
 
-resource "google_service_account_iam_binding" "admin-account-iam" {
+resource "google_service_account_iam_binding" "workload-identity-user-iam" {
   service_account_id = google_service_account.gsa.name
   role               = "roles/iam.workloadIdentityUser"
 
   members = [
     "serviceAccount:${var.gcp_project}.svc.id.goog[default/${var.ksa_name}]",
   ]
+}
+
+resource "google_project_iam_member" "cloudsql_client" {
+  role   = "roles/cloudsql.client"
+  member = "serviceAccount:${google_service_account.gsa.email}"
 }
