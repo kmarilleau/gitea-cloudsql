@@ -10,7 +10,7 @@ resource "google_sql_database_instance" "master" {
 
 resource "google_sql_user" "user" {
   depends_on = [
-    "google_sql_database_instance.master"
+    google_sql_database_instance.master
   ]
 
   instance = google_sql_database_instance.master.name
