@@ -8,6 +8,11 @@ resource "google_sql_database_instance" "master" {
   }
 }
 
+resource "google_sql_database" "database" {
+  name     = var.db_name
+  instance = google_sql_database_instance.master.name
+}
+
 resource "google_sql_user" "user" {
   depends_on = [
     google_sql_database_instance.master

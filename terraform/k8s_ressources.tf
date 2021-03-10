@@ -57,7 +57,7 @@ resource "kubernetes_deployment" "gitea" {
           }
           env {
             name  = "DB_NAME"
-            value = "gitea"
+            value = var.db_name
           }
           env {
             name  = "DB_USER"

@@ -40,3 +40,7 @@ variable "cloudsql_user" {
 variable "cloudsql_password" {
   type = string
 }
+
+variable "db_name" {
+  default = "gitea"
+}
