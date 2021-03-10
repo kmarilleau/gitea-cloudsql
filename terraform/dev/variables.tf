@@ -21,4 +21,6 @@ variable "services" {
     ]
 }
 
-
+variable "db_version" {
+  default = "13"
+}

@@ -30,9 +30,18 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
     machine_type = "g1-small"
 
     service_account = google_service_account.gke.email
-    oauth_scopes    = [
+    oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]
   }
 }
 
+resource "google_sql_database_instance" "master" {
+  name             = "${var.app}-db"
+  database_version = "POSTGRES_${var.db_version}"
+  region           = var.region
+
+  settings {
+    tier = "db-f1-micro"
+  }
+}
