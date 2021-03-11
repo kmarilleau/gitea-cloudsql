@@ -71,7 +71,7 @@ resource "kubernetes_deployment" "gitea" {
 
         container {
           name  = "cloudsql-proxy"
-          image = "gcr.io/cloudsql-docker/gce-proxy:1.20.2"
+          image = "gcr.io/cloudsql-docker/gce-proxy:latest"
           command = [
             "/cloud_sql_proxy",
             "-instances=${var.gcp_project}:${var.region}:${google_sql_database_instance.master.name}=tcp:5432"
