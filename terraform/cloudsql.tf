@@ -1,5 +1,5 @@
 resource "google_sql_database_instance" "master" {
-  name             = "${var.app}-db"
+  name             = var.app
   database_version = "POSTGRES_${var.db_version}"
   region           = var.region
 
